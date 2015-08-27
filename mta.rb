@@ -17,12 +17,14 @@ startStation = gets.chomp.
 
 def getValidLine ()
   line = gets.chomp.capitalize.to_sym
-  line == 6 ? 
   unless mta.keys.include?(startLine)
     print "Please choose from N, L or 6"
     startLine = gets.chomp.capitalize.to_sym
   end
 end
 
-def getValidStation (station)
-  station.split(" ").map{ |a| a.capitalize}.join(" ").split("-")[0]
+def getValidStation (line)
+  station = gets.chomp.split(" ").map{ |a| a.capitalize}.join(" ")
+  mta[line].map{|s| s.split("-")[0]}
+end
+  
