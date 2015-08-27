@@ -4,33 +4,58 @@ mta = {
   "6": ["Grand Central", "33rd", "28th-6", "23rd-6", "Union Square", "Astor Place"]
 }
 
-print "Starting line N, L, 6?"
-start_line = gets.chomp.capitalize.to_sym
-unless mta.keys.include?(start_line)
-  print "Please choose from N, L or 6"
-  start_line = gets.chomp.capitalize.to_sym
+def getReadableStation (line, mta)
+  readable_stations = mta[line].map{|s| s.split("-")[0]}
 end
 
-print "Starting Station?"
-start_station = gets.chomp.
-
-
-def getValidLine ()
+def getValidLine (mta)
   line = gets.chomp.capitalize.to_sym
-  unless mta.keys.include?(line)
-    print "Please choose from N, L or 6"
+  while !(mta.keys.include?(line))
+    puts "Please choose from N, L or 6"
     line = gets.chomp.capitalize.to_sym
   end
   return line
 end
 
-def getValidStation (line)
+def getValidStation (line, mta)
   station = gets.chomp.split(" ").map{ |a| a.capitalize}.join(" ")
-  readable_stations = mta[line].map{|s| s.split("-")[0]}
-  unless readable_stations.include?(station)
-    print "Please choose from" + readable_stations.join(" , ")
+  readable_stations = getReadableStation(line, mta)
+  while !(readable_stations.include?(station))
+    puts "Please choose from" + readable_stations.join(" , ")
     station = gets.chomp.split(" ").map{ |a| a.capitalize}.join(" ")
   end
   return station
 end
+
+puts "Starting line N, L, 6? "
+start_line = getValidLine(mta)
+puts "start line is " + start_line.to_s
+
+puts "Starting Station? "
+start_station = getValidStation(start_line, mta)
+puts "start station is " + start_station.to_s
+
+puts "Destination line N, L, 6? "
+end_line = getValidLine(mta)
+puts "end line is " + end_line.to_s
+
+puts "Destination Station? "
+end_station = getValidStation(end_line, mta)
+puts "end station is " + end_station.to_s
+
+start_stations = getReadableStation(start_line, mta)
+end_stations = getReadableStation(end_line, mta)
+
+if start_line == end_line
+  stops = (start_stations.index(start_station) - start_stations.index(end_station)).abs
+else
+  intercept = mta[start_line] & mta[end_line]
+  stops1 = (start_stations.index(start_station) - start_stations.index(intercept[0])).abs
+  stops2 = (end_stations.index(end_station) - end_stations.index(intercept[0])).abs
+  stops = stops1 + stops2
+end
+
+puts "this number of stops are: " + stops.to_s
+
+
   
