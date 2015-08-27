@@ -5,26 +5,32 @@ mta = {
 }
 
 print "Starting line N, L, 6?"
-startLine = gets.chomp.capitalize.to_sym
-unless mta.keys.include?(startLine)
+start_line = gets.chomp.capitalize.to_sym
+unless mta.keys.include?(start_line)
   print "Please choose from N, L or 6"
-  startLine = gets.chomp.capitalize.to_sym
+  start_line = gets.chomp.capitalize.to_sym
 end
 
 print "Starting Station?"
-startStation = gets.chomp.
+start_station = gets.chomp.
 
 
 def getValidLine ()
   line = gets.chomp.capitalize.to_sym
-  unless mta.keys.include?(startLine)
+  unless mta.keys.include?(line)
     print "Please choose from N, L or 6"
-    startLine = gets.chomp.capitalize.to_sym
+    line = gets.chomp.capitalize.to_sym
   end
+  return line
 end
 
 def getValidStation (line)
   station = gets.chomp.split(" ").map{ |a| a.capitalize}.join(" ")
-  mta[line].map{|s| s.split("-")[0]}
+  readable_stations = mta[line].map{|s| s.split("-")[0]}
+  unless readable_stations.include?(station)
+    print "Please choose from" + readable_stations.join(" , ")
+    station = gets.chomp.split(" ").map{ |a| a.capitalize}.join(" ")
+  end
+  return station
 end
   
