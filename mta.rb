@@ -17,36 +17,35 @@ def getValidLine (mta)
   return line
 end
 
-def getValidStation (line, mta)
+def getValidStation (valid_stations)
   station = gets.chomp.split(" ").map{ |a| a.capitalize}.join(" ")
-  readable_stations = getReadableStation(line, mta)
-  while !(readable_stations.include?(station))
-    puts "Please choose from " + readable_stations.join(" , ")
+  while !(valid_stations.include?(station))
+    puts "Please choose from " + valid_stations.join(" , ")
     station = gets.chomp.split(" ").map{ |a| a.capitalize}.join(" ")
   end
   return station
 end
 
 def runProgramme (mta)
-
   puts "Starting line N, L, 6? "
   start_line = getValidLine(mta)
   puts "start line is " + start_line.to_s
 
+  start_stations = getReadableStation(start_line, mta)
+
   puts "Starting Station? "
-  start_station = getValidStation(start_line, mta)
+  start_station = getValidStation(start_stations)
   puts "start station is " + start_station.to_s
 
   puts "Destination line N, L, 6? "
   end_line = getValidLine(mta)
   puts "end line is " + end_line.to_s
 
-  puts "Destination Station? "
-  end_station = getValidStation(end_line, mta)
-  puts "end station is " + end_station.to_s
-
-  start_stations = getReadableStation(start_line, mta)
   end_stations = getReadableStation(end_line, mta)
+
+  puts "Destination Station? "
+  end_station = getValidStation(end_stations)
+  puts "end station is " + end_station.to_s
 
   if start_line == end_line
     stops = (start_stations.index(start_station) - start_stations.index(end_station)).abs
@@ -58,6 +57,7 @@ def runProgramme (mta)
   end
 
   puts "The number of stops are: " + stops.to_s
+
   puts "Would you like to check another route? (y/n)"
   safeword = gets.chomp.downcase
   while safeword != "y" && safeword !="n"
